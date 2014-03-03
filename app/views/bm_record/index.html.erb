@@ -1,0 +1,18 @@
+<h1>Ruby Micro Benchmark</h1>
+
+<form class="form-inline" accept-charset="UTF-8" action="/" method="post">
+
+<p>Select Ruby Versions To Compare:</p>
+
+<% BMRubyVersion.find(:all, order: 'ruby_version').each do | version |  %>
+  <% rv = version.ruby_version %>
+  <%= check_box("ruby_version", "versions", {:multiple => true}, rv, nil)%> 
+  <%= label_tag("ruby_version", rv) %>
+<%end%>
+
+<br/>
+<br/>
+  <input name="compare" type="submit" value="compare" class="btn btn-default" />
+</form>
+
+<%= ResultTablePresenter.new(@result_table).present if @result_table %>

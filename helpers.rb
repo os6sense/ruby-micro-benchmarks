@@ -1,9 +1,30 @@
- 
+
+#
+# Print usage information
+# 
+def usage
+  puts "Run this program using either:
+  ruby benchmark.rb 
+or
+  rake run_benchmark
+
+Running as a rake task will allow for saving results for analysis using
+the rails UI.
+"
+end
+
+
+#
+# Used to format a header for each "test section"
+# 
 def header str
   puts str
     .upcase
 end
 
+# 
+# Very simple class to test class and accors
+# 
 class Point 
   attr_accessor :x, :y
   def initialize(x, y)
@@ -12,43 +33,40 @@ class Point
   end
 end
 
-def ret(i)
+# ################################
+# TESTS TO HELP IN TESTING RETURN
+#
+def ret i
   return i
 end
 
-def ret_impl(i)
+def ret_impl i
   i
 end
 
-def yield_i(i)
+def yield_i i
   yield i
 end
+# ################################
 
+#
+# Used to test Class vs Struct
+#
 Widget = Struct.new(:id)
 point_s = Struct.new(:x, :y)
 Point_s = point_s
 
-MICRO = 100
-SMALL = 1_000
-MIDS = 10_000
-MEDIUM = 100_000
-LARGE = 1_000_000
-XLARGE = 10_000_000
-
+#
+# Used for testing class accessors
+#
 class TestClass
+  attr_reader :ar
+  attr_writer :aw
+  attr_accessor :aa
+
   attr_accessor :i
-  def self.sfoo
-
-  end
-
-  def foo
-  end
-
+  class << self; attr_accessor :x end
+  @@x = 1
+  def self.sfoo; end
+  def foo; end
 end
-
-
-# I could bm like this but I add the overhead of the .call
-#bm_run(x, MEDIUM, ["map_with_to_proc", ->{ widgets.map(&:id) } ])
-#def bm_run(bm, loop_size, m)
-   #bm.report(m[0]) { (1..loop_size).each { m[1].call } }
-#end
